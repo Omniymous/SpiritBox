@@ -1,0 +1,175 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spirit Box EVP Simulator</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="spirit-box">
+    <div class="ghost-trails"></div>
+    <div class="display">
+      <div class="active-frequency">000.0</div>
+      <div class="frequency-info">
+        <span class="range-info">Range: 87.5-108.0</span>
+        <span class="mode">FM</span>
+      </div>
+    </div>
+
+    <div class="frequency-display">
+      <div class="frequency-background"></div>
+      <div class="frequency-graph"></div>
+      <div class="frequency-grid"></div>
+      <div class="scan-line"></div>
+      <div class="frequency-marker">
+        <div class="marker-value"></div>
+      </div>
+      <div class="frequency-scale">
+        <span class="scale-start" title="Min Frequency">87.5</span>
+        <span class="scale-mid" title="Current Frequency"></span>
+        <span class="scale-end" title="Max Frequency">108.0</span>
+      </div>
+    </div>
+    
+    <div class="waveform-container">
+      <canvas class="waveform-canvas"></canvas>
+    </div>
+
+    <div class="controls">
+      <button class="power-btn">Power</button>
+      <button class="mode-btn">Mode</button>
+      
+      <div class="frequency-range">
+        <label>Frequency Band</label>
+        <select id="band">
+          <option value="fm">FM (87.5-108 MHz)</option>
+          <option value="am">AM (520-1710 kHz)</option>
+          <option value="evp">EVP (100-300 Hz)</option>
+          <option value="ghost">Ghost Box (400-800 Hz)</option>
+          <option value="custom">Custom Range</option>
+        </select>
+      </div>
+
+      <div class="custom-range hidden">
+        <label>Custom Range (Hz/kHz/MHz)</label>
+        <div class="range-inputs">
+          <input type="number" id="minFreq" placeholder="Min">
+          <span>-</span>
+          <input type="number" id="maxFreq" placeholder="Max">
+        </div>
+      </div>
+
+      <div class="sweep-speed">
+        <label>Sweep Speed</label>
+        <div class="speed-control">
+          <input type="range" id="speed" min="50" max="500" value="250" step="50">
+          <div class="speed-display">
+            <span class="speed-value">250ms</span>
+            <div class="speed-indicator">
+              <div class="speed-dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sweep-step">
+        <label>Sweep Step</label>
+        <input type="number" id="step" min="0.1" max="100" value="0.1" step="0.1">
+      </div>
+
+      <div class="volume-control">
+        <label>Volume</label>
+        <input type="range" id="volume" min="0" max="100" value="50">
+      </div>
+
+      <div class="effects-controls">
+        <h3>Effects</h3>
+        <div class="effect-slider">
+          <label>
+            Reverb Mix
+            <span id="reverbValue">50%</span>
+          </label>
+          <input type="range" id="reverb" min="0" max="100" value="50">
+        </div>
+        <div class="effect-slider">
+          <label>
+            Delay Time
+            <span id="delayTimeValue">300ms</span>
+          </label>
+          <input type="range" id="delayTime" min="0" max="1000" value="300">
+        </div>
+      </div>
+    </div>
+
+    <div class="signal-strength">
+      <div class="meter"></div>
+    </div>
+    
+    <!-- Add decibel meter -->
+    <div class="decibel-meter">
+      <div class="decibel-label">
+        <span>Signal Intensity</span>
+        <div class="decibel-value">-∞ dB</div>
+      </div>
+      <div class="decibel-bar">
+        <div class="decibel-fill"></div>
+      </div>
+    </div>
+
+    <div class="radio-noise"></div>
+    
+    <div class="audio-clips">
+      <div class="clip">Radio Noise</div>
+      <div class="clip">Static</div>
+      <div class="clip">EVP</div>
+      <div class="clip">Spirit</div>
+    </div>
+
+    <div class="evp-log">
+      <h3>EVP Log</h3>
+      <div class="log-entries"></div>
+    </div>
+
+    <div class="speech-recognition">
+      <h3>Speech Analysis</h3>
+      <div class="transcription-display"></div>
+      <div class="confidence-meter">
+        <div class="confidence-bar"></div>
+      </div>
+      <div class="word-cloud"></div>
+    </div>
+  </div>
+
+  <div class="company-branding">
+    <div class="company-logo">
+      <svg class="logo-glow" viewBox="0 0 200 40" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#32cd32;stop-opacity:0.6" />
+            <stop offset="50%" style="stop-color:#32cd32;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#32cd32;stop-opacity:0.6" />
+          </linearGradient>
+        </defs>
+        <path d="M20,20 L180,20" stroke="url(#logoGradient)" stroke-width="1" fill="none" />
+        <path d="M40,10 L160,10 M40,30 L160,30" stroke="url(#logoGradient)" stroke-width="0.5" fill="none" />
+        <text x="100" y="23" fill="#32cd32" font-family="'Orbitron', sans-serif" font-size="16" text-anchor="middle" font-weight="700">TRANSCENDENT</text>
+      </svg>
+    </div>
+    <div class="company-name">Innovations</div>
+  </div>
+
+  <script type="module" src="spiritBox.js"></script>
+  <script type="module" src="audioEngine.js"></script>
+  <script>
+    document.querySelector('.frequency-display').addEventListener('mousemove', (e) => {
+      const rect = e.target.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / e.target.offsetWidth) * 100;
+      const y = ((e.clientY - rect.top) / e.target.offsetHeight) * 100;
+      e.target.style.setProperty('--mouse-x', x + '%');
+      e.target.style.setProperty('--mouse-y', y + '%');
+    });
+  </script>
+</body>
+</html>
